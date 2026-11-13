@@ -1,0 +1,1283 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Smart Campus Resource Optimizer - Campus room and resource management dashboard">
+    <meta name="theme-color" content="#090e1a">
+    <title>Smart Campus | Resource Optimizer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+<!-- LOGIN SCREEN -->
+<section class="login-screen" id="loginScreen">
+    <div class="login-card">
+        <div class="brand-icon login-logo">S</div>
+
+        <h1>Smart Campus</h1>
+        <p class="login-subtitle">Resource Optimizer</p>
+
+        <form id="loginForm">
+            <label for="loginEmail">Email Address</label>
+            <input
+                type="email"
+                id="loginEmail"
+                placeholder="Enter your email"
+                required
+            >
+
+            <label for="loginPassword">Password</label>
+            <div class="password-wrapper">
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Enter your password"
+                required
+            >
+
+            <button
+                type="button"
+                id="togglePassword"
+                class="password-toggle"
+                aria-label="Show password"
+                aria-pressed="false"
+            >
+                👁
+            </button>
+        </div>
+
+            <button type="submit" class="primary-button login-button">
+                Sign In
+            </button>
+
+            <p id="loginMessage" class="login-message"
+               role="status" aria-live="polite"></p>
+        </form>
+        
+
+        <!-- FORGOT PASSWORD LINK -->
+        <div class="forgot-password-wrapper">
+            <button type="button" id="forgotPasswordButton">
+                Forgot Password?
+            </button>
+        </div>
+
+        <!-- FORGOT PASSWORD FORM -->
+        <form id="forgotPasswordForm" hidden>
+            <h2>Reset Password</h2>
+
+            <p>Enter your registered email address. We will send you a password reset link.</p>
+
+            <label for="resetEmail">Email Address</label>
+            <input
+                type="email"
+                id="resetEmail"
+                placeholder="Enter your registered email"
+                required
+            >
+
+            <button type="submit" class="primary-button login-button"
+                    id="sendResetLinkButton">
+                Send Reset Link
+            </button>
+
+            <button type="button" id="backToLoginButton"
+                    class="logout-button">
+                Back to Sign In
+            </button>
+
+            <p id="resetMessage" class="login-message"
+            role="status" aria-live="polite"></p>
+        </form>
+
+        <!-- SET NEW PASSWORD FORM -->
+        <form id="recoveryPasswordForm" hidden>
+            <h2>Set New Password</h2>
+
+            <label for="recoveryNewPassword">New Password</label>
+            <input
+                type="password"
+                id="recoveryNewPassword"
+                minlength="8"
+                placeholder="Enter new password"
+                required
+            >
+
+            <label for="recoveryConfirmPassword">Confirm New Password</label>
+            <input
+                type="password"
+                id="recoveryConfirmPassword"
+                minlength="8"
+                placeholder="Confirm new password"
+                required
+            >
+
+            <button type="submit" class="primary-button login-button"
+                    id="saveRecoveryPasswordButton">
+                Update Password
+            </button>
+
+            <p id="recoveryMessage" class="login-message"
+            role="status" aria-live="polite"></p>
+        </form>
+
+
+        <button type="button" id="showRegisterButton" class="logout-button">
+            Create Customer Account
+        </button>
+
+        <form id="registerForm" hidden>
+            <h2>Create Customer Account</h2>
+
+            <label for="registerEmail">Email Address</label>
+            <input type="email" id="registerEmail" required
+                placeholder="Enter your email">
+
+            <label for="registerPassword">Password</label>
+
+            <div class="password-input-wrapper">
+                <input
+                    type="password"
+                    id="registerPassword"
+                    required
+                    minlength="8"
+                    placeholder="At least 12 characters"
+                >
+
+                <button
+                    type="button"
+                    class="toggle-password"
+                    data-target="registerPassword"
+                    aria-label="Show password"
+                >
+                    👁
+                </button>
+                    <i class="fa-solid fa-eye"></i>
+                </button>
+            </div>
+
+            <button type="submit" class="primary-button login-button">
+                Register
+            </button>
+
+            <button type="button" id="showLoginButton" class="logout-button">
+                Back to Sign In
+            </button>
+
+            <p id="registerMessage" class="login-message" role="status"></p>
+        </form>
+
+
+    </div>
+</section>
+
+
+<div class="app-layout" id="dashboardShell" hidden>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">S</div>
+            <div>
+                <div class="brand-name">Smart Campus</div>
+                <div class="brand-subtitle">Resource Optimizer</div>
+            </div>
+        </div>
+
+        <nav aria-label="Main navigation">
+
+            <div class="nav-label">Workspace</div>
+
+            <a href="#dashboard" class="nav-link active">
+                <span class="nav-icon">▦</span>
+                Dashboard
+            </a>
+
+            <a href="#rooms" class="nav-link">
+                <span class="nav-icon">▣</span>
+                Room Management
+            </a>
+
+            <a href="#bookings" class="nav-link">
+                <span class="nav-icon">▤</span>
+                Bookings
+            </a>
+
+
+            <a href="#allocation" class="nav-link">
+                <span class="nav-icon">⌘</span>
+                Smart Allocation
+            </a>
+
+            <div class="nav-label">Management</div>
+
+            <a href="#users" class="nav-link">
+                <span class="nav-icon">♙</span>
+                Users
+            </a>
+
+            <a href="#analytics" class="nav-link">
+                <span class="nav-icon">▥</span>
+                Analytics
+            </a>
+
+            <a href="#settings" class="nav-link">
+                <span class="nav-icon">⚙</span>
+                Settings
+            </a>
+
+        </nav>
+
+        <div class="sidebar-footer">
+            <p>Campus Resource System</p>
+            <span>Management workspace</span>
+        </div>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content" id="dashboard">
+
+        <!-- HEADER -->
+        <header class="topbar">
+
+            <div class="page-heading">
+                <h1>Dashboard Overview</h1>
+                <p>Monitor your campus resources and activities.</p>
+            </div>
+
+            <div class="topbar-actions">
+
+                <!-- NOTIFICATIONS -->
+                <div class="notification-wrapper">
+
+                    <button
+                        class="icon-button notification-button"
+                        id="notificationButton"
+                        type="button"
+                        aria-label="Notifications"
+                        aria-expanded="false">
+
+                        🔔
+
+                        <span
+                            id="notificationCount"
+                            class="notification-count"
+                            hidden>0</span>
+
+                    </button>
+
+                    <!-- NOTIFICATION DROPDOWN -->
+                    <div
+                        class="notification-panel"
+                        id="notificationPanel"
+                        hidden>
+
+                        <div class="notification-header">
+
+                            <div>
+                                <h3>Notifications</h3>
+                                <p>Your latest updates</p>
+                            </div>
+
+                            <button
+                                type="button"
+                                id="closeNotifications"
+                                class="notification-close">
+                                ×
+                            </button>
+
+                        </div>
+
+                        <div
+                            id="notificationList"
+                            class="notification-list">
+
+                            <p class="notification-empty">
+                                No notifications yet.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- NEW BOOKING BUTTON -->
+                <button
+                    class="primary-button"
+                    id="newBookingButton"
+                    type="button">
+
+                    + New Booking
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- STATISTICS -->
+        <section aria-label="Campus statistics">
+
+            <div class="section-heading">
+                <div>
+                    <h2>Campus at a glance</h2>
+                    <p>Overview of your resource performance</p>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+
+                <!-- TOTAL ROOMS -->
+                <article class="stat-card dashboard-clickable"
+                        data-target="#rooms"
+                        role="button"
+                        tabindex="0"
+                        aria-label="View rooms">
+
+                    <div class="stat-top">
+                        <span class="stat-label">Total Rooms</span>
+                        <span class="stat-icon">▣</span>
+                    </div>
+
+                    <div class="stat-value" id="totalRooms">24</div>
+                    <div class="stat-change">Campus room inventory</div>
+
+                </article>
+
+                <!-- ACTIVE BOOKINGS -->
+                <article class="stat-card dashboard-clickable"
+                        data-target="#bookings"
+                        role="button"
+                        tabindex="0"
+                        aria-label="View bookings">
+
+                    <div class="stat-top">
+                        <span class="stat-label">Active Bookings</span>
+                        <span class="stat-icon">▤</span>
+                    </div>
+
+                    <div class="stat-value" id="activeBookings">18</div>
+                    <div class="stat-change">Current booking records</div>
+
+                </article>
+
+                <!-- PENDING REQUESTS -->
+                <article class="stat-card dashboard-clickable"
+                        data-target="#bookings"
+                        role="button"
+                        tabindex="0"
+                        aria-label="View pending bookings">
+
+                    <div class="stat-top">
+                        <span class="stat-label">Pending Requests</span>
+                        <span class="stat-icon">◷</span>
+                    </div>
+
+                    <div class="stat-value" id="pendingRequests">06</div>
+                    <div class="stat-change">Awaiting allocation</div>
+
+                </article>
+
+                <!-- RESOURCE UTILIZATION -->
+                <article class="stat-card dashboard-clickable"
+                        data-target="#analytics"
+                        role="button"
+                        tabindex="0"
+                        aria-label="View resource utilization">
+
+                    <div class="stat-top">
+                        <span class="stat-label">Resource Utilization</span>
+                        <span class="stat-icon">◈</span>
+                    </div>
+
+                    <div class="stat-value" id="utilizationRate">78%</div>
+                    <div class="stat-change">Illustrative dashboard data</div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+        <!-- ANALYTICS -->
+        <section aria-label="Resource analytics">
+
+            <div class="section-heading">
+                <div>
+                    <h2>Resource Analytics</h2>
+                    <p>Understand how campus facilities are being used</p>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+
+                <!-- CHART PANEL -->
+                <article class="panel">
+
+                    <h3 class="panel-title">Weekly room utilization</h3>
+                    <p class="panel-subtitle">
+                        Illustrative utilization across the week
+                    </p>
+
+                    <div class="chart-placeholder" aria-label="Illustrative weekly utilization chart">
+
+                        <div class="chart-column">
+                            <div class="chart-bar" style="height:55%"></div>
+                            <span class="chart-label">Mon</span>
+                        </div>
+
+                        <div class="chart-column">
+                            <div class="chart-bar" style="height:75%"></div>
+                            <span class="chart-label">Tue</span>
+                        </div>
+
+                        <div class="chart-column">
+                            <div class="chart-bar" style="height:65%"></div>
+                            <span class="chart-label">Wed</span>
+                        </div>
+
+                        <div class="chart-column">
+                            <div class="chart-bar" style="height:90%"></div>
+                            <span class="chart-label">Thu</span>
+                        </div>
+
+                        <div class="chart-column">
+                            <div class="chart-bar" style="height:80%"></div>
+                            <span class="chart-label">Fri</span>
+                        </div>
+
+                        <div class="chart-column">
+                            <div class="chart-bar" style="height:40%"></div>
+                            <span class="chart-label">Sat</span>
+                        </div>
+
+                        <div class="chart-column">
+                            <div class="chart-bar" style="height:25%"></div>
+                            <span class="chart-label">Sun</span>
+                        </div>
+
+                    </div>
+
+                </article>
+
+                <!-- UTILIZATION PANEL -->
+                <article class="panel">
+
+                    <h3 class="panel-title">Overall utilization</h3>
+                    <p class="panel-subtitle">
+                        Illustrative campus capacity usage
+                    </p>
+
+                    <div class="utilization-value">78%</div>
+
+                    <div class="progress-track"
+                        role="progressbar"
+                        aria-label="Illustrative resource utilization"
+                        aria-valuenow="78"
+                        aria-valuemin="0"
+                        aria-valuemax="100">
+
+                        <div class="progress-fill"></div>
+
+                    </div>
+
+                    <div class="status-row">
+                        <span>Occupied resources</span>
+                        <strong>78%</strong>
+                    </div>
+
+                    <div class="status-row">
+                        <span>Available resources</span>
+                        <strong>22%</strong>
+                    </div>
+
+                    <div class="status-row">
+                        <span>System status</span>
+                        <strong style="color:var(--success)">Operational</strong>
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+        <!-- RECENT BOOKINGS -->
+        <section id="dashboardRecentBookings">
+
+            <div class="section-heading">
+                <div>
+                    <h2>Recent Bookings</h2>
+                    <p>Latest campus room reservations</p>
+                </div>
+
+                <a href="#bookings" class="muted">View all →</a>
+            </div>
+
+            <div class="panel table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Room</th>
+                            <th>Time</th>
+                            <th>Purpose</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="bookingTableBody">
+
+                        <tr>
+                            <td>BK001</td>
+                            <td>R101</td>
+                            <td>09:00 - 10:00</td>
+                            <td>Lecture</td>
+                            <td>
+                                <span class="status-badge status-confirmed">
+                                    Confirmed
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>BK002</td>
+                            <td>L201</td>
+                            <td>10:00 - 11:30</td>
+                            <td>Workshop</td>
+                            <td>
+                                <span class="status-badge status-pending">
+                                    Pending
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>BK003</td>
+                            <td>R102</td>
+                            <td>12:00 - 13:00</td>
+                            <td>Meeting</td>
+                            <td>
+                                <span class="status-badge status-confirmed">
+                                    Confirmed
+                                </span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+        
+
+    </main>
+    
+<!-- ROOM MANAGEMENT PAGE -->
+<main class="main-content" id="roomsPage" hidden>
+
+    <header class="topbar">
+        <div class="page-heading">
+            <h1>Room Management</h1>
+            <p>Manage campus rooms and available resources.</p>
+        </div>
+
+        <div class="topbar-actions">
+            <button class="primary-button" id="addRoomButton" type="button">
+                + Add Room
+            </button>
+        </div>
+    </header>
+
+    <!-- ADD ROOM FORM -->
+    <section class="panel room-form-panel" id="roomFormPanel" hidden>
+        <h2>Add New Room</h2>
+
+        <form id="roomForm">
+            <div class="room-form-grid">
+
+                <div>
+                    <label for="roomId">Room ID</label>
+                    <input id="roomId" type="text" placeholder="ROOM-002" required>
+                </div>
+
+                <div>
+                    <label for="roomName">Room Name</label>
+                    <input id="roomName" type="text" placeholder="Computer Lab 2" required>
+                </div>
+
+                <div>
+                    <label for="roomType">Room Type</label>
+                    <select id="roomType" required>
+                        <option value="">Select type</option>
+                        <option value="Classroom">Classroom</option>
+                        <option value="Laboratory">Laboratory</option>
+                        <option value="Seminar Hall">Seminar Hall</option>
+                        <option value="Auditorium">Auditorium</option>
+                        <option value="Meeting Room">Meeting Room</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="roomCapacity">Capacity</label>
+                    <input id="roomCapacity" type="number" min="1" placeholder="40" required>
+                </div>
+
+            </div>
+
+            <div class="room-checkboxes">
+                <label>
+                    <input id="roomProjector" type="checkbox">
+                    Has Projector
+                </label>
+
+                <label>
+                    <input id="roomComputers" type="checkbox">
+                    Has Computers
+                </label>
+            </div>
+
+            <div class="room-form-actions">
+                <button type="submit" class="primary-button">Save Room</button>
+
+                <button type="button" class="logout-button" id="cancelRoomButton">
+                    Cancel
+                </button>
+            </div>
+
+            <p id="roomFormMessage" role="status"></p>
+        </form>
+    </section>
+
+    <!-- ROOM TABLE -->
+    <section>
+        <div class="section-heading">
+            <div>
+                <h2>Campus Rooms</h2>
+                <p>View and manage all registered rooms.</p>
+            </div>
+        </div>
+
+        <div class="panel table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Room ID</th>
+                        <th>Room Name</th>
+                        <th>Type</th>
+                        <th>Capacity</th>
+                        <th>Projector</th>
+                        <th>Computers</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="roomsTableBody">
+                    <tr>
+                        <td colspan="8">Rooms will appear here.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+
+<!-- BOOKING MANAGEMENT PAGE -->
+<main class="main-content" id="bookingsPage" hidden>
+
+    <header class="topbar">
+        <div class="page-heading">
+            <h1>Booking Management</h1>
+            <p>Manage campus room reservations and requests.</p>
+        </div>
+
+        <div class="topbar-actions">
+            <button class="primary-button" id="addBookingButton" type="button">
+                + New Booking
+            </button>
+        </div>
+    </header>
+
+    <!-- BOOKING FORM -->
+    <section class="panel booking-form-panel" id="bookingFormPanel" hidden>
+        <h2>Create New Booking</h2>
+
+        <form id="bookingForm">
+
+            <div class="booking-form-grid">
+
+                <div>
+                    <label for="bookingRoom">Select Room</label>
+                    <select id="bookingRoom" required>
+                        <option value="">Loading rooms...</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="bookingPurpose">Purpose</label>
+                    <input
+                        type="text"
+                        id="bookingPurpose"
+                        placeholder="e.g. Project demonstration"
+                        required
+                    >
+                </div>
+
+                <div>
+                    <label for="bookingStart">Start Date and Time</label>
+                    <input type="datetime-local" id="bookingStart" required>
+                </div>
+
+                <div>
+                    <label for="bookingEnd">End Date and Time</label>
+                    <input type="datetime-local" id="bookingEnd" required>
+                </div>
+
+            </div>
+
+            <div class="booking-form-actions">
+                <button type="submit" class="primary-button" id="saveBookingButton">
+                    Create Booking
+                </button>
+
+                <button type="button" class="logout-button" id="cancelBookingButton">
+                    Cancel
+                </button>
+            </div>
+
+            <p id="bookingFormMessage" role="status"></p>
+
+        </form>
+    </section>
+
+    <!-- BOOKING TABLE -->
+    <section>
+
+        <div class="section-heading">
+            <div>
+                <h2>All Bookings</h2>
+                <p>View and manage all campus reservations.</p>
+            </div>
+        </div>
+
+        <div class="panel table-wrapper">
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Room ID</th>
+                        <th>Purpose</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="bookingsTableBody">
+                    <tr>
+                        <td colspan="7">Bookings will appear here.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<main id="allocationPage" class="main-content" hidden>
+    <header class="page-header">
+        <div>
+            <h1>Smart Allocation</h1>
+            <p>Find the best available room for a pending booking.</p>
+        </div>
+        <button class="btn btn-primary" id="findAllocationButton">
+            Find Best Rooms
+        </button>
+    </header>
+
+    <section class="booking-form-panel">
+        <h2>Allocation Requirements</h2>
+
+        <div class="form-group">
+            <label for="allocationBooking">Select Pending Booking</label>
+            <select id="allocationBooking" required>
+                <option value="">Loading pending bookings...</option>
+            </select>
+        </div>
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="requiredCapacity">Minimum Capacity</label>
+                <input type="number" id="requiredCapacity" min="1" value="1">
+            </div>
+
+            <div class="form-group">
+                <label for="requiredRoomType">Preferred Room Type</label>
+                <select id="requiredRoomType">
+                    <option value="">Any type</option>
+                    <option value="Classroom">Classroom</option>
+                    <option value="Laboratory">Laboratory</option>
+                    <option value="Seminar Hall">Seminar Hall</option>
+                    <option value="Auditorium">Auditorium</option>
+                    <option value="Meeting Room">Meeting Room</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>
+                <input type="checkbox" id="requireProjector">
+                Projector required
+            </label>
+            <label>
+                <input type="checkbox" id="requireComputers">
+                Computers required
+            </label>
+        </div>
+    </section>
+
+    <section class="booking-form-panel">
+        <h2>Recommended Rooms</h2>
+        <p id="allocationMessage">
+            Select a booking and click Find Best Rooms.
+        </p>
+
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Room</th>
+                        <th>Type</th>
+                        <th>Capacity</th>
+                        <th>Facilities</th>
+                        <th>Match Score</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="allocationResults">
+                    <tr>
+                        <td colspan="7">No recommendations yet.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+
+<!-- USERS MANAGEMENT PAGE -->
+<main class="main-content" id="usersPage" hidden>
+
+    <header class="topbar">
+        <div class="page-heading">
+            <h1>Users Management</h1>
+            <p>Manage campus users, administrators and account access.</p>
+        </div>
+    </header>
+
+    <section class="stats-grid">
+        <article class="stat-card">
+            <div class="stat-label">Total Users</div>
+            <div class="stat-value" id="totalUsers">0</div>
+        </article>
+
+        <article class="stat-card">
+            <div class="stat-label">Administrators</div>
+            <div class="stat-value" id="totalAdmins">0</div>
+        </article>
+
+        <article class="stat-card">
+            <div class="stat-label">Customers</div>
+            <div class="stat-value" id="totalCustomers">0</div>
+        </article>
+
+        <article class="stat-card">
+            <div class="stat-label">Inactive Users</div>
+            <div class="stat-value" id="inactiveUsers">0</div>
+        </article>
+    </section>
+
+    <section>
+        <div class="section-heading">
+            <div>
+                <h2>Registered Users</h2>
+                <p>View all accounts registered in Smart Campus.</p>
+            </div>
+        </div>
+
+        <div class="panel table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Account Status</th>
+                        <th>Created At</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="usersTableBody">
+                    <tr>
+                        <td colspan="6">Users will appear here.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+
+<!-- ANALYTICS PAGE -->
+<main class="main-content" id="analyticsPage" hidden>
+
+    <header class="topbar">
+        <div class="page-heading">
+            <h1>Campus Analytics</h1>
+            <p>Understand campus resources and booking performance.</p>
+        </div>
+    </header>
+
+    <section class="stats-grid">
+
+        <article class="stat-card">
+            <div class="stat-label">Total Bookings</div>
+            <div class="stat-value" id="analyticsTotalBookings">0</div>
+        </article>
+
+        <article class="stat-card">
+            <div class="stat-label">Confirmed</div>
+            <div class="stat-value" id="analyticsConfirmed">0</div>
+        </article>
+
+        <article class="stat-card">
+            <div class="stat-label">Pending</div>
+            <div class="stat-value" id="analyticsPending">0</div>
+        </article>
+
+        <article class="stat-card">
+            <div class="stat-label">Rejected</div>
+            <div class="stat-value" id="analyticsRejected">0</div>
+        </article>
+
+    </section>
+
+    <section>   
+        <div class="panel">
+            <div id="analyticsBookingSummary">
+                Analytics will appear here.
+            </div>
+
+            <div id="bookingStatusChart" class="booking-status-chart">
+                <!-- Chart bars will be generated here -->
+            </div>
+        </div>
+
+    </section>
+
+
+    <section>
+        <div class="section-heading">
+            <div>
+                <h2>Booking Trends</h2>
+                <p>Daily booking activity over time.</p>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div id="bookingTrendsChart">
+                Booking trends will appear here.
+            </div>
+        </div>
+    </section>
+
+
+    <section>
+        <div class="section-heading">
+            <div>
+                <h2>Room Utilization</h2>
+                <p>Overview of campus room usage.</p>
+            </div>
+        </div>
+
+        <section class="stats-grid">
+            <article class="stat-card">
+                <div class="stat-label">Total Rooms</div>
+                <div class="stat-value" id="utilTotalRooms">0</div>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-label">Rooms With Bookings</div>
+                <div class="stat-value" id="utilBookedRooms">0</div>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-label">Rooms Without Bookings</div>
+                <div class="stat-value" id="utilUnusedRooms">0</div>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-label">Room Usage Rate</div>
+                <div class="stat-value" id="utilUsageRate">0%</div>
+            </article>
+        </section>
+    </section>
+
+
+    <section>
+        <div class="section-heading">
+            <div>
+                <h2>Most Booked Room</h2>
+                <p>Room with the highest number of bookings.</p>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h2 id="mostBookedRoom">Calculating...</h2>
+            <p id="mostBookedRoomCount">Total bookings: 0</p>
+        </div>
+    </section>
+
+
+    <section>
+        <div class="section-heading">
+            <div>
+                <h2>Room Booking Performance</h2>
+                <p>Number of bookings for each room.</p>
+            </div>
+        </div>
+
+        <div class="panel table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Room ID</th>
+                        <th>Total Bookings</th>
+                        <th>Confirmed</th>
+                        <th>Pending</th>
+                    </tr>
+                </thead>
+
+                <tbody id="analyticsRoomTable">
+                    <tr>
+                        <td colspan="4">Analytics will appear here.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+
+
+<!-- SETTINGS PAGE -->
+<main class="main-content" id="settingsPage" hidden>
+
+    <header class="topbar">
+        <div class="page-heading">
+            <h1>Settings</h1>
+            <p>Manage your Smart Campus application settings.</p>
+        </div>
+    </header>
+
+    <!-- ACCOUNT SETTINGS -->
+    <section>
+        <div class="section-heading">
+            <div>
+                <h2>Account Settings</h2>
+                <p>Your account information.</p>
+            </div>
+        </div>
+
+        <div class="panel">
+            <p><strong>Username:</strong>
+                <span id="settingsUsername">Loading...</span>
+            </p>
+
+            <p><strong>Email:</strong>
+                <span id="settingsEmail">Loading...</span>
+            </p>
+
+            <p><strong>Role:</strong>
+                <span id="settingsRole">Loading...</span>
+            </p>
+        </div>
+    </section>
+
+    <!-- SECURITY SECTION -->
+    <section>
+        <div class="section-heading">
+            <div>
+                <h2>Security</h2>
+                <p>Manage your account security.</p>
+            </div>
+        </div>
+
+        <div class="panel settings-action-panel">
+
+            <div class="settings-action-info">
+                <h3>Change Password</h3>
+                <p>Update your password to keep your account secure.</p>
+            </div>
+
+            <button type="button"
+                    id="changePasswordBtn"
+                    class="settings-btn settings-btn-primary">
+                <span>🔒</span>
+                Change Password
+            </button>
+
+        </div>
+    </section>
+
+    <!-- SESSION SECTION -->
+    <section>
+        <div class="section-heading">
+            <div>
+                <h2>Session</h2>
+                <p>Manage your current session.</p>
+            </div>
+        </div>
+
+        <div class="panel settings-action-panel">
+
+            <div class="settings-action-info">
+                <h3>Logout</h3>
+                <p>Sign out securely from your Smart Campus account.</p>
+            </div>
+
+            <button type="button"
+                    id="settingsLogoutBtn"
+                    class="settings-btn settings-btn-danger">
+                <span>↪</span>
+                Logout
+            </button>
+
+        </div>
+    </section>
+
+    <!-- CHANGE PASSWORD MODAL -->
+    <div class="settings-modal" id="passwordModal" hidden>
+
+        <div class="settings-modal-backdrop"
+             id="passwordModalBackdrop"></div>
+
+        <div class="settings-modal-content"
+             role="dialog"
+             aria-modal="true"
+             aria-labelledby="passwordModalTitle">
+
+            <div class="settings-modal-header">
+                <div>
+                    <h2 id="passwordModalTitle">Change Password</h2>
+                    <p>Enter your current password and choose a new one.</p>
+                </div>
+
+                <button type="button"
+                        id="closePasswordModal"
+                        class="modal-close-btn"
+                        aria-label="Close">
+                    &times;
+                </button>
+            </div>
+
+            <form id="changePasswordForm">
+
+                <div class="settings-form-group">
+                    <label for="currentPassword">
+                        Current Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="currentPassword"
+                        placeholder="Enter current password"
+                        autocomplete="current-password"
+                        required>
+                </div>
+
+                <div class="settings-form-group">
+                    <label for="newPassword">
+                        New Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="newPassword"
+                        placeholder="Enter new password"
+                        autocomplete="new-password"
+                        required>
+                </div>
+
+                <div class="settings-form-group">
+                    <label for="confirmNewPassword">
+                        Confirm New Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="confirmNewPassword"
+                        placeholder="Confirm new password"
+                        autocomplete="new-password"
+                        required>
+                </div>
+
+                <p id="passwordMessage"
+                   class="password-message"
+                   aria-live="polite"></p>
+
+                <div class="settings-modal-actions">
+
+                    <button type="button"
+                            id="cancelPasswordBtn"
+                            class="settings-btn settings-btn-secondary">
+                        Cancel
+                    </button>
+
+                    <button type="submit"
+                            id="savePasswordBtn"
+                            class="settings-btn settings-btn-primary">
+                        Update Password
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</main>
+
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="app.js" defer></script>
+
+</body>
+</html>

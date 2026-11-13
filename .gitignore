@@ -14,3 +14,28 @@ cmake-build-*/
 # Temporary files
 *.tmp
 *.log
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Build files
+build/
+build-modern/
+*.exe
+
+# Local CA certificate bundle
+certificates/cacert.pem
+
+# IDE and operating system files
+.idea/
+.vs/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Additional build outputs
+out/
+*.pdb
+*.lib
